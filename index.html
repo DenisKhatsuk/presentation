@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>XSS Attacks</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="dist/xss.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-transition="slide" data-background-position="right bottom" data-background="assets/img/slide1.jpg">
+					<h1 class="presentation-title">XSS Attacks</h1>
+					<h3>And why you should </br> consider them</h3>
+					<p>
+						<small>Created by <a href="https://github.com/DenisKhatsuk">Denis Khatsuk</a> for RS School</small>
+					</p>
+				</section>
+				<section>
+					<h2>How an XSS attack may happen to you</h2>
+					<div class="r-stack">
+						<img src="assets/img/slide2_1.png" width="882" height="410" class="fragment fade-in-then-out">
+						<img src="assets/img/slide2_2.png" width="600" height="465" class="fragment fade-in-then-out">
+						<img src="assets/img/slide2_3.jpg" width="750" height="414" class="fragment fade-in-then-out">
+						<img src="assets/img/slide2_4.jpg" width="500" height="500" class="fragment fade-in-then-out">
+					</div>
+				</section>
+				<section>
+					<h2>Consequences of malicious JS injections:</h2>
+						<h3 class="fragment fade-in">1.Cookie theft<h3>
+						<h3 class="fragment fade-in">2.Keylogging<h3>
+						<h3 class="fragment fade-in">3.Phishing<h3>
+				</section>
+				<section>
+					<h2>Types of XSS</h2>
+					<div class="r-stack">
+						<div class="fragment fade-in-then-out"><h3>1.Persistent XSS</h3> - the malicious string originates from the website's database</div>
+						<div class="fragment fade-in-then-out"><h3>2.Reflected XSS</h3> - the malicious string originates from the victim's request</div>
+						<div class="fragment fade-in-then-out"><h3>3.DOM-based XSS</h3> - the vulnerability is in the client-side code rather than the server-side code</div>
+						<div class="fragment fade-in">
+							<h4>1.Persistent XSS</h4>
+							<h4>2.Reflected XSS</h4>
+							<h4>3.DOM-based XSS</h4>
+						</div>
+					</div>
+				</section>
+				<section>
+					<h2>Persistent XSS</h2>
+					<img src="assets/img/slide3.png" width="804" height="456" class="fragment fade-in">
+				</section>
+				<section>
+					<section>
+						<h2>Reflected XSS</h2>
+						<img src="assets/img/slide4.png" width="804" height="456" class="fragment fade-in">
+					</section>
+					<section>
+						<h2>How can reflected XSS succeed?</h2>
+						<div class="fragment fade-in">
+							Add some social engineering with URL shortening service and you're good to go
+						</div>
+						</section>
+					</section>
+					<section>
+						<section>
+							<h2>DOM-based XSS</h2>
+							<img src="assets/img/slide6.png" width="902" height="576" class="fragment fade-in">
+						</section>
+						<section>
+							<h2>What makes DOM-based XSS different?</h2>
+							<div class="fragment fade-in">
+								In DOM-based XSS, the malicious JavaScript is executed at some point <span class="fragment highlight-red visible">after</span> the page has loaded.
+							</div>
+							<br>
+							<div class="fragment fade-in">
+								XSS vulnerability appears in your website's <span class="fragment highlight-red visible">client-side</span> JavaScript code. Server side isn't affected!
+							</div>
+						</section>
+					</section>
+					<section>
+						<section>
+							<h2>Preventing XSS</h2>
+							<h4 class="fragment fade-in">1.Securing user input</h4>
+							<h4 class="fragment fade-in">2.Using Content Security Policy (CSP)</h4>
+						</section>
+						<section>
+							<h2>Securing user input</h2>
+							<h4 class="fragment fade-in">1.Encoding</h4>
+							<div class="fragment fade-in">which escapes the user input so that the browser interprets it only as data, not as code.</div>
+							<br>
+							<h4 class="fragment fade-in">2.Validation</h4>
+							<div class="fragment fade-in">which filters the user input so that the browser interprets it as code without malicious commands.</div>
+						</section>
+						<section>
+							<h2 data-id="code-title">Encoding</h2>
+							<pre><code data-trim data-noescape>
+								&#x3C;script&#x3E;
+									element.textContent = untrustedData; 
+								&#x3C;/script&#x3E;
+							</code></pre>
+						</section>
+						<section>
+							<h2>Validation</h2>
+							<div class="fragment fade-in">Allowing some HTML elements (such as <span class="fragment highlight-blue visible">&#x3C;em&#x3E;</span> and <span class="fragment highlight-blue visible">&#x3C;strong&#x3E;</span>) but disallowing others (such as <span class="fragment highlight-red visible">&#x3C;script&#x3E;</span>)</div>
+						</section>
+						<section>
+							<h2>Content Security Policy (CSP)</h2>
+							<div class="fragment fade-in">
+								<h4>1.No untrusted sources</h4>
+								<h4>2.No inline resources</h4>
+								<h4>3.No eval</h4>
+							</div>
+						</section>
+						<section>
+							<h2>Enabling CSP on your website</h2>
+							<h4 data-id="code-title">Add additional HTTP header to your pages: Content‑Security‑Policy.</h4>
+							<pre><code data-trim data-noescape>
+								&#x3C;meta http-equiv="Content-Security-Policy" content="default-src https:"&#x3E;
+							</code></pre>
+						</section>
+					</section>
+					<section data-background-transition="slide" data-background="assets/img/slide5.png">
+						<h1 class="presentation-title">XSS Attacks</h1>
+						<h3 style="background-color: rgba(44, 44, 44, 0.7);">Now you know more!</h3>
+					</section>
+				</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
